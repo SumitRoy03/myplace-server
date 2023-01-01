@@ -35,13 +35,13 @@ mongoose.connection.on("disconnected", () => {
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/hotels", hotelsRoute);
+app.use("/", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
