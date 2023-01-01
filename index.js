@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 const app = express();
 const corsOpts = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", `${process.env.CLIENT_URL}`],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
@@ -35,6 +35,9 @@ mongoose.connection.on("disconnected", () => {
 app.use(cookieParser());
 app.use(express.json());
 
+app.use("/", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/rooms", roomsRoute);
@@ -50,10 +53,10 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-
-app.listen(8800, () => {
+const PORT = process.env.PORT || 8800;
+app.listen(PORT, () => {
   connectdb();
-  console.log(`server is running on PORT ${8800}`);
+  console.log(`server is running on PORT ${PORT}`);
 });
 
 //TODO:
