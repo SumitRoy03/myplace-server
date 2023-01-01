@@ -6,7 +6,16 @@ import usersRoute from "./routes/users.js";
 import roomsRoute from "./routes/rooms.js";
 import hotelsRoute from "./routes/hotels.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 const app = express();
+const corsOpts = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOpts));
+
 dotenv.config();
 
 const connectdb = async () => {
@@ -47,4 +56,4 @@ app.listen(8800, () => {
   console.log(`server is running on PORT ${8800}`);
 });
 
-//TODO: 
+//TODO:
